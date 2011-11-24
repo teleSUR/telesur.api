@@ -26,7 +26,12 @@ setup(name='telesur.api',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
+          'five.grok',
+          'plone.app.z3cform',
       ],
+      extras_require={
+        'test': ['plone.app.testing'],
+        },
       entry_points="""
       # -*- Entry points: -*-
 
