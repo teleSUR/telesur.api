@@ -11,13 +11,16 @@ from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import login
 from plone.app.testing import setRoles
 
-from telesur.policy.api import IPortalAPI
-from telesur.policy.testing import INTEGRATION_TESTING
-from telesur.policy.viewlets import IListViewlet
+from telesur.api.interfaces import IPortalAPI
+from telesur.api.testing import INTEGRATION_TESTING
+
+IAPIViewlet = ['telesur.policy.videosporseccion',
+               'telesur.policy.related_contents',
+               'telesur.policy.related_videos',
+               'telesur.policy.mas_titulares']
 
 
-class UtilitesTest(unittest.TestCase):
-
+class UtilitesTest(unittest.TestCase): 
     layer = INTEGRATION_TESTING
 
     def setUp(self):
@@ -36,30 +39,6 @@ class UtilitesTest(unittest.TestCase):
         self.failUnless(util, 'API Vocabulary not installed')
         self.assertIn(u'portal', util().by_token.keys())
         self.assertIn(u'video', util().by_token.keys())
-
-    def test_viewlets_vocabulary_no_interface(self):
-        util = queryUtility(IVocabularyFactory, name=u"telesur.api.Widgets")
-        self.failUnless(util, 'Widgets Vocabulary not installed')
-        vocab = util()
-        self.assertEquals([], vocab.by_token.keys())
-
-    def test_viewlets_vocabulary_list_interface(self):
-        util = queryUtility(IVocabularyFactory, name=u"telesur.api.Widgets")
-        self.failUnless(util, 'Widgets Vocabulary not installed')
-        vocab = util(IListViewlet)
-        self.assertIn(u'telesur.policy.firstofsections', vocab.by_token.keys())
-        self.assertIn(u'telesur.policy.videos_busqueda', vocab.by_token.keys())
-        self.assertIn(u'telesur.policy.videosporseccion', vocab.by_token.keys())
-        self.assertEquals(len(vocab.by_token.keys()), 3)
-
-    def test_viewlets_names_vocabulary_list_interface(self):
-        util = queryUtility(IVocabularyFactory, name=u"telesur.api.WidgetsNames")
-        self.failUnless(util, 'Widgets Names Vocabulary not installed')
-        vocab = util(IListViewlet)
-        self.assertIn(u'telesur.policy.firstofsections', vocab.by_token.keys())
-        self.assertIn(u'telesur.policy.videos_busqueda', vocab.by_token.keys())
-        self.assertIn(u'telesur.policy.videosporseccion', vocab.by_token.keys())
-        self.assertEquals(len(vocab.by_token.keys()), 3)
 
 
 def test_suite():

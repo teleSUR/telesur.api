@@ -16,7 +16,6 @@ from plone.app.testing import setRoles
 from plone.testing.z2 import Browser
 
 from telesur.policy.api import Video_API
-
 from telesur.policy.interfaces import ITelesurLayer
 from telesur.policy.testing import FUNCTIONAL_TESTING
 from telesur.policy.testing import browserLogin
@@ -24,6 +23,7 @@ from telesur.policy.testing import createObject
 from telesur.policy.testing import setupTestContent
 
 from zope.component import getMultiAdapter
+
 
 class BrowserLayerTest(unittest.TestCase):
 
@@ -80,15 +80,17 @@ class BrowserLayerTest(unittest.TestCase):
                       'secciones': [u"Latinoamérica".encode("utf-8"),
                                     u"Vuelta al mundo".encode("utf-8")],
                       'texto': u'Tema útil'.encode("utf-8"),
-                      'widgets': ['telesur.policy.firstofsections',
-                                  'telesur.policy.videos_busqueda',
-                                  'telesur.policy.videosporseccion'],
+                      'widgets': [u'telesur.policy.mas_titulares'.encode("utf-8"),
+                                  u'telesur.policy.related_contents'.encode("utf-8"),
+                                  u'telesur.policy.videosporseccion'.encode("utf-8")],
                       }
         query = urllib.urlencode(api_query)
         self.browser.open(self.portal.absolute_url() + name + "?" + query )
-        self.assertIn('<div id="caja-titulares">', self.browser.contents)
-        self.assertIn('<ul id="content-droppable">', self.browser.contents)
-        self.assertIn('<div id="makeMeDraggable"', self.browser.contents)
+        self.assertIn('<div id="telesur-titulares"', self.browser.contents)
+        self.assertIn('<div id="related-contents" class="row">',
+                      self.browser.contents)
+        self.assertIn('<div id="videos-por-seccion" class="row">',
+                      self.browser.contents)
 
     def test_portal_api_query_bad(self):
         name = "/@@portal_api"
