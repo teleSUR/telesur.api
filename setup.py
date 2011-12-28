@@ -26,8 +26,10 @@ setup(name='telesur.api',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-          'five.grok',
-          'plone.app.z3cform',
+          # 
+          # collective.nitf especifica las dependencias de dexterity
+          # las cuales incluyen five.grok y plone.app.z3cform, entre otras.
+          'collective.nitf',
       ],
       extras_require={
         'test': ['plone.app.testing'],
