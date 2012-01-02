@@ -16,10 +16,12 @@ class TelesurPolicyFixture(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
-        import telesur.policy
+        import telesur.api
         self.loadZCML(package=telesur.api)
 
     def setUpPloneSite(self, portal):
+        # Install into Plone site using portal_setup
+        self.applyProfile(portal, 'telesur.api:default')
         # Set default workflow chains for tests
         wf = getattr(portal, 'portal_workflow')
         types = ('Folder', 'Topic')
@@ -52,6 +54,7 @@ def browserLogin(portal, browser, username=None, password=None):
     finally:
         browser.handleErrors = handleErrors
 
+
 def createObject(context, _type, id, delete_first=False,
                  check_for_first=False, **kwargs):
     if delete_first and id in context.objectIds():
@@ -60,6 +63,7 @@ def createObject(context, _type, id, delete_first=False,
         return context[context.invokeFactory(_type, id, **kwargs)]
 
     return context[id]
+
 
 def setupTestContent(test):
     createObject(test.portal, 'Folder', 'folder',
