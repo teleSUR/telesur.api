@@ -9,7 +9,7 @@ from zope.interface import Interface
 
 from Products.CMFCore.utils import getToolByName
 
-from telesur.policy.interfaces import IPortalAPI
+from telesur.api.interfaces import IPortalAPI
 
 
 URL_BASE = u"http://multimedia.tlsur.net/api/"

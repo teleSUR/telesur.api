@@ -10,6 +10,7 @@ from Products.CMFCore.utils import getToolByName
 
 from telesur.api.interfaces import IPortalAPI
 from telesur.api.interfaces import IAPIViewlet
+from telesur.api.video import VIDEO_API_REGEX
 
 
 class Portal_API(grok.View):
