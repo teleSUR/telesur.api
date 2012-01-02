@@ -2,5 +2,5 @@
 <!-- Register the package-specific browser layer, so that it will be activated when this package is installed. -->
     <layers>
         <layer name="telesur.api"
-            interface="telesur.api.interfaces.ITelesurLayer" />
+            interface="telesur.api.interfaces.ITelesurAPILayer" />
     </layers>
