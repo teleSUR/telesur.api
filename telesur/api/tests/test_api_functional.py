@@ -15,7 +15,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from plone.testing.z2 import Browser
 
-from telesur.policy.api import Video_API
+from telesur.api.video import Video_API
 from telesur.policy.interfaces import ITelesurLayer
 from telesur.policy.testing import FUNCTIONAL_TESTING
 from telesur.policy.testing import browserLogin
