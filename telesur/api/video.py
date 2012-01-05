@@ -11,6 +11,9 @@ from Products.CMFCore.utils import getToolByName
 
 from telesur.api.interfaces import IPortalAPI
 
+from zope.component import getUtility
+from plone.i18n.normalizer.interfaces import IIDNormalizer
+
 
 URL_BASE = u"http://multimedia.tlsur.net/api/"
 VIDEO_API_REGEX_STRING = u"^http:\/\/.+\/api\/(?P<url>clip\/.+?)$"
@@ -135,3 +138,23 @@ class Video_API(grok.View):
         if section_name in categories_list:
             section_id = 'http://multimedia.telesurtv.net/media/video/cmswidgets/videos.html?widget=ultimos_seccion&seccion_plone=' + section_name
         return section_id        
+
+
+class AddVideoToContext(grok.View):
+    grok.context(Interface)
+    grok.name("add-video-to-context")
+    grok.require("zope2.View")
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        
+    def __call__(self, title, url):
+        title = title.strip()
+        url = url.strip()
+        normalizer = getUtility(IIDNormalizer)
+        id = normalizer.normalize(title)
+        self.context.invokeFactory('Link', id, title=title, remoteUrl=url)
+
+    def render(self):
+        return u"add-video-to-context"

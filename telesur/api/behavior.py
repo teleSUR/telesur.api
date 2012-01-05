@@ -12,12 +12,14 @@ from rwproperty import getproperty, setproperty
 
 from telesur.widgets.videos import AddVideosFieldWidget
 
+from z3c.form.interfaces import IDisplayForm
+
 class IAddableVideos(form.Schema):
     """
     """
 
-    #form.omitted('relatedVideos')
-    #form.no_omit(IDisplayForm, 'relatedVideos')
+    form.omitted('relatedVideos')
+    form.no_omit(IDisplayForm, 'relatedVideos')
     form.widget(relatedVideos=AddVideosFieldWidget)
     relatedVideos = RelationList(
         title=u'Videos relacionados',
