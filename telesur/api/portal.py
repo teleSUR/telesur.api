@@ -19,7 +19,7 @@ class Portal_API(grok.View):
     grok.layer(ITelesurAPILayer)
     grok.name("portal_api")
     grok.require("zope2.View")
-    
+
     def __init__(self, *args, **kwargs):
         super(Portal_API, self).__init__(*args, **kwargs)
         self.api_query = None
@@ -34,7 +34,6 @@ class Portal_API(grok.View):
     def getViewletsVocabulary(self, interface=IAPIViewlet):
         if self.vocab:
             return self.vocab(interface)
-
 
     def render(self, query=None):
         if query is not None:
@@ -145,4 +144,3 @@ class Portal_API(grok.View):
             if img:
                 return img['image_url']
         return None
-
