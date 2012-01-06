@@ -130,7 +130,19 @@ class Portal_API(grok.View):
                 query['section'] = section
                 results = self.catalog(query)
                 if len(results) > 0:
-                    firsts.append({'section_name': section,
-                        'brains': results[:limit],
-                                   })
-        return firsts                    
+                    tmp = {'section_name': section,
+                           'brains': results[:limit],
+                           }
+                    img = self.get_section_image(results[:limit])
+                    if img is not None:
+                        tmp['section_img'] = img
+                    firsts.append(tmp)
+        return firsts
+
+    def get_section_image(self, brains):
+        if len(brains) > 0:
+            img = self.get_first_image_for_brain(brains[0])
+            if img:
+                return img['image_url']
+        return None
+
