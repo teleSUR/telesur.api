@@ -9,12 +9,14 @@ from zope.schema.interfaces import IVocabularyFactory
 from Products.CMFCore.utils import getToolByName
 
 from telesur.api.interfaces import IPortalAPI
+from telesur.api.interfaces import ITelesurAPILayer
 from telesur.api.interfaces import IAPIViewlet
 from telesur.api.video import VIDEO_API_REGEX
 
 
 class Portal_API(grok.View):
     grok.context(Interface)
+    grok.layer(ITelesurAPILayer)
     grok.name("portal_api")
     grok.require("zope2.View")
     
@@ -61,6 +63,7 @@ class Portal_API(grok.View):
             nitf_api = queryMultiAdapter((item_obj, self.request),
                                          name=u"view")
             if nitf_api:
+                nitf_api.update()
                 return nitf_api
 
     def get_first_image_for_brain(self, brain):
@@ -71,6 +74,7 @@ class Portal_API(grok.View):
             nitf_api = queryMultiAdapter((item_obj, self.request),
                                          name=u"view")
             if nitf_api:
+                nitf_api.update()
                 img = nitf_api.image()
                 if img:
                     return img
