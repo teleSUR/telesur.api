@@ -6,6 +6,7 @@ from zope.component import queryUtility
 from zope.interface import Interface
 from zope.schema.interfaces import IVocabularyFactory
 
+from Products.ATContentTypes.interface import IATTopic
 from Products.CMFCore.utils import getToolByName
 
 from telesur.api.interfaces import IPortalAPI
@@ -69,14 +70,12 @@ class Portal_API(grok.View):
         item_obj = brain.getObject()
         if hasattr(item_obj, 'image'):
             return item_obj.image
-        if brain["portal_type"] == "collective.nitf.content":
-            nitf_api = queryMultiAdapter((item_obj, self.request),
-                                         name=u"view")
-            if nitf_api:
-                nitf_api.update()
-                img = nitf_api.image()
-                if img:
-                    return img
+
+        if brain["is_folderish"]:
+            query = {'Type': ('Image',)}
+            imgs = self.query_container(query, item_obj)
+            if len(imgs) > 0:
+                return imgs[0]
 
     def get_first_video_for_brain(self, brain):
         #folder_int = "Products.ATContentTypes.interfaces.folder.IATFolder"
@@ -92,7 +91,7 @@ class Portal_API(grok.View):
         if container.portal_type == "collective.nitf.content":
             item_obj = container
             query = {'Type': ('Link',)}
-            brains = self.query_container(item_obj, query)
+            brains = self.query_container(query, item_obj)
             for brain in brains:
                 brain_obj = brain.getObject()
                 match = VIDEO_API_REGEX.search(brain_obj.remoteUrl)
@@ -100,16 +99,24 @@ class Portal_API(grok.View):
                     return brain_obj.remoteUrl
             return False
 
-    def query_container(self, container, query, limit=None,
-                        depth=1, sort_on="getObjPositionInParent"):
-        context_path = '/'.join(container.getPhysicalPath())
-        if 'path' not in query.keys():
+    def query_container(self, query, container, depth=1,
+                        limit=None, sort_on="getObjPositionInParent"):
+        if 'path' not in query:
+            context_path = '/'.join(container.getPhysicalPath())
             query['path'] = {'query': context_path,
-                             'depth': 1}
-        brains = self.catalog.searchResults(query,
-                                            sort_on=sort_on,
-                                            limit=limit)
-        return brains
+                             'depth': depth,}
+        query['sort_on'] = sort_on
+        query['limit'] = limit
+        if IATTopic.providedBy(container):
+            return container.queryCatalog(query,
+                                          batch=False,
+                                          b_size=10,
+                                          full_objects=False)
+        else:
+            return container.getFolderContents(contentFilter=query,
+                                                    batch=False,
+                                                    b_size=10,
+                                                    full_objects=False)
 
     def get_section_names(self):
         return self.catalog.uniqueValuesFor("section")
@@ -142,5 +149,5 @@ class Portal_API(grok.View):
         if len(brains) > 0:
             img = self.get_first_image_for_brain(brains[0])
             if img:
-                return img['image_url']
+                return img.getURL()
         return None
