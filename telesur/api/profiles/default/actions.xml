@@ -1,0 +1,17 @@
+<object name="portal_actions" meta_type="Plone Actions Tool">
+ <object name="object_buttons" meta_type="CMF Action Category">
+
+  <object name="update_link" meta_type="CMF Action">
+   <property name="title">Actualizar</property>
+   <property name="description"></property>
+   <property name="url_expr">string:${object_url}/@@update-link</property>
+   <property name="icon_expr"></property>
+   <property name="available_expr">python:object.portal_type == 'Link'</property>
+   <property name="permissions">
+    <element value="Modify portal content"/>
+   </property>
+   <property name="visible">True</property>
+  </object>
+
+ </object>
+</object>

@@ -14,6 +14,9 @@ from telesur.api.interfaces import IPortalAPI
 from zope.component import getUtility
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 
+from zope.event import notify
+from Products.Archetypes.event import ObjectInitializedEvent
+
 
 URL_BASE = u"http://multimedia.tlsur.net/api/"
 VIDEO_API_REGEX_STRING = u"^http:\/\/.+\/api\/(?P<url>clip\/.+?)$"
@@ -155,6 +158,8 @@ class AddVideoToContext(grok.View):
         normalizer = getUtility(IIDNormalizer)
         id = normalizer.normalize(title)
         self.context.invokeFactory('Link', id, title=title, remoteUrl=url)
+        link = self.context[id]
+        notify(ObjectInitializedEvent(link))
 
     def render(self):
         return u"add-video-to-context"
