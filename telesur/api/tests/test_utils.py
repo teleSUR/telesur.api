@@ -4,12 +4,6 @@ import unittest2 as unittest
 
 from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleVocabulary
-
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import login
-from plone.app.testing import setRoles
 
 from telesur.api.interfaces import IPortalAPI
 from telesur.api.testing import INTEGRATION_TESTING
@@ -20,7 +14,7 @@ IAPIViewlet = ['telesur.policy.videosporseccion',
                'telesur.policy.mas_titulares']
 
 
-class UtilitesTest(unittest.TestCase): 
+class UtilitesTest(unittest.TestCase):
     layer = INTEGRATION_TESTING
 
     def setUp(self):

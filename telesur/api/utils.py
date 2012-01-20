@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import re
 import json
 import urllib
 
 from five import grok
 from zope.component import getUtilitiesFor
 from zope.component import queryUtility
-from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.viewlet.interfaces import IViewlet
@@ -80,7 +78,7 @@ class APIUtility(object):
         self.query_interface = query_interface
 
     def getAPIQuery(self, request):
-        
+
         if len(request.form.keys()) > 0:
             form = request.form
             query = {}

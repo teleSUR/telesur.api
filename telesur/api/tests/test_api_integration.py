@@ -2,11 +2,7 @@
 
 import unittest2 as unittest
 
-from StringIO import StringIO
-
-from zope.app.file.tests.test_image import zptlogo
 from zope.interface import directlyProvides
-from zope.interface import Interface
 
 from plone.app.customerize import registration
 

@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
+
 from five import grok
 
 from zope.component import getMultiAdapter
-from zope.interface import Interface
 
 from Products.ATContentTypes.interfaces.link import IATLink
-
 from Products.Archetypes.interfaces import IObjectInitializedEvent
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
@@ -14,17 +13,6 @@ from zope.annotation.interfaces import IAnnotations
 from OFS.Image import Image
 
 import urllib2
-
-#from zope.publisher.interfaces import NotFound
-
-#from Products.CMFCore.interfaces import IFolderish
-
-#from collective.nitf.browser import View
-#from collective.nitf.content import INITF
-#from collective.routes.interfaces import IFragmentContext
-#from collective.routes.interfaces import IWrappedBrainsContext
-#from collective.routes.interfaces import IWrappedObjectContext
-#from collective.routes import getObject
 
 
 class LinkApi(grok.View):
@@ -38,7 +26,7 @@ class LinkApi(grok.View):
 
     def is_video(self):
         return self.get('archivo_url') and True or False
-        
+
     def render(self):
         return self
 
@@ -57,7 +45,7 @@ class LinkPreviewThumbnailView(grok.View):
             return thumb.index_html(self.request, self.request.RESPONSE)
         else:
             return ''
-            
+
 
 class UpdateLinkView(grok.View):
     grok.context(IATLink)
@@ -75,7 +63,7 @@ class UpdateLinkView(grok.View):
     def render(self):
         return "update-link"
 
-            
+
 class LinkControl(grok.View):
     grok.context(IATLink)
     grok.name("link-control")
@@ -134,9 +122,10 @@ class LinkControl(grok.View):
                     del(annotations['slug'])
                 except KeyError:
                     pass
-                
+
     def render(self):
         return self
+
 
 @grok.subscribe(IATLink, IObjectInitializedEvent)
 @grok.subscribe(IATLink, IObjectModifiedEvent)

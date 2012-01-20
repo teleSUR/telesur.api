@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 from z3c.relationfield.schema import RelationChoice, RelationList
 from plone.formwidget.contenttree import ObjPathSourceBinder
@@ -13,6 +14,7 @@ from rwproperty import getproperty, setproperty
 from telesur.widgets.videos import AddVideosFieldWidget
 
 from z3c.form.interfaces import IDisplayForm
+
 
 class IAddableVideos(form.Schema):
     """
@@ -46,7 +48,7 @@ class AddableVideos(object):
     def relatedVideos(self):
         # Codigo para listar videos ya agregados
         return []
-        
+
     @setproperty
     def relatedVideos(self, value):
         # Codigo para agregar videos al nitf

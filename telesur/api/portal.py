@@ -104,7 +104,7 @@ class Portal_API(grok.View):
         if 'path' not in query:
             context_path = '/'.join(container.getPhysicalPath())
             query['path'] = {'query': context_path,
-                             'depth': depth,}
+                             'depth': depth, }
         query['sort_on'] = sort_on
         query['limit'] = limit
         if IATTopic.providedBy(container):

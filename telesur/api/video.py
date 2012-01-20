@@ -7,10 +7,6 @@ import urllib
 from five import grok
 from zope.interface import Interface
 
-from Products.CMFCore.utils import getToolByName
-
-from telesur.api.interfaces import IPortalAPI
-
 from zope.component import getUtility
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 
@@ -39,15 +35,16 @@ Más vistos del año:
 http://multimedia.telesurtv.net/media/video/cmswidgets/cmswidgets.html?widget=mas_vistos&tiempo=ano
 """
 
-WIDGET_URLS = [{'title': u"Más vistos del día",
+WIDGET_URLS = [
+                {'title': u"Más vistos del día",
                  'url': 'http://multimedia.telesurtv.net/media/video/' +
                  'cmswidgets/videos.html?widget=mas_vistos&tiempo=dia',
-               },
-               { 'title': u"Más vistos de la semana",
+                },
+                {'title': u"Más vistos de la semana",
                  'url': 'http://multimedia.telesurtv.net/media/video/' +
                  'cmswidgets/videos.html?widget=mas_vistos&tiempo=semana'
                  },
-               { 'title': u"Más vistos del mes",
+                {'title': u"Más vistos del mes",
                  'url': 'http://multimedia.telesurtv.net/media/video/' +
                  'cmswidgets/videos.html?widget=mas_vistos&tiempo=mes'
                  },
@@ -58,8 +55,7 @@ class Video_API(grok.View):
     grok.context(Interface)
     grok.name("video_api")
     grok.require("zope2.View")
-    
-        
+
     def __init__(self, *args, **kwargs):
         super(Video_API, self).__init__(*args, **kwargs)
 
@@ -69,13 +65,16 @@ class Video_API(grok.View):
     def get_widgets(self):
         return WIDGET_URLS
 
+    # XXX esta función, ¿sirve para algo?
     def queryApiUrl(self, *args, **kwargs):
         query = []
         if kwargs:
             for key, value in kwargs:
                 query.append(tuple(key.encode('utf-8'),
                                    urllib.quote(value.encode('utf-8'))))
+        # XXX URLBASE no está definida
         query_url = URLBASE + urllib.urlencode(query)
+        # query_url no se usa en ningún lado
 
     def get_json(self, url):
         """
@@ -89,13 +88,13 @@ class Video_API(grok.View):
                 result = json.load(urllib.urlopen(url))
             except ValueError:
                 result = None
-                
+
             if result and 'Error' in result:
                 result = None
 
         return result
 
-    def get_video_widget_url(self, url, width=400, json = None):
+    def get_video_widget_url(self, url, width=400, json=None):
         """
         Método que se encarga de obtener el Javascript utilizado para
         embeber el player con el video. De la forma:
@@ -115,10 +114,10 @@ class Video_API(grok.View):
                     clip_url = match.groups()[0]
                     return VIDEO_WIDGET_URL_BASE + clip_url + widget_width
 
-    def get_video_thumb(self, url, thumb_size='pequeno', json = None):
+    def get_video_thumb(self, url, thumb_size='pequeno', json=None):
         """da el thumb image de un video, los posibles tamanios son pequeno,
         mediano, grande"""
-        
+
         if json:
             json_data = json
         else:
@@ -133,14 +132,14 @@ class Video_API(grok.View):
 
     def get_section_last_videos(self, section_name):
         #check the slug id in the api
-        categories_list = ['latinoamerica', 'vuelta-al-mundo', 'deportes', 
+        categories_list = ['latinoamerica', 'vuelta-al-mundo', 'deportes',
                            'ciencia', 'cultura', 'salud', 'tecnologia']
         #category = self.get_json(URL_BASE + '/categoria')
-        
+
         section_id = ''
         if section_name in categories_list:
             section_id = 'http://multimedia.telesurtv.net/media/video/cmswidgets/videos.html?widget=ultimos_seccion&seccion_plone=' + section_name
-        return section_id        
+        return section_id
 
 
 class AddVideoToContext(grok.View):
@@ -151,7 +150,7 @@ class AddVideoToContext(grok.View):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        
+
     def __call__(self, title, url):
         title = title.strip()
         url = url.strip()
