@@ -101,6 +101,7 @@ class LinkControl(grok.View):
 
             if titulo:
                 annotations['titulo'] = titulo
+                element.setTitle(titulo)
             else:
                 try:
                     del(annotations['titulo'])
@@ -109,6 +110,7 @@ class LinkControl(grok.View):
 
             if descripcion:
                 annotations['descripcion'] = descripcion
+                element.setDescription(descripcion)
             else:
                 try:
                     del(annotations['descripcion'])
