@@ -31,7 +31,7 @@ class LinkApi(grok.View):
         return self
 
 
-class LinkPreviewThumbnailView(grok.View):
+class LinkPreviewThumbnailPequenoView(grok.View):
     grok.context(IATLink)
     grok.name("thumbnail_pequeno")
     grok.require("zope2.View")
@@ -46,6 +46,37 @@ class LinkPreviewThumbnailView(grok.View):
         else:
             return ''
 
+            
+class LinkPreviewThumbnailMedianoView(grok.View):
+    grok.context(IATLink)
+    grok.name("thumbnail_mediano")
+    grok.require("zope2.View")
+
+    def render(self):
+        link_api = getMultiAdapter((self.context, self.request),
+                                       name="link_api")
+        thumb = link_api.get('thumbnail_mediano')
+
+        if thumb:
+            return thumb.index_html(self.request, self.request.RESPONSE)
+        else:
+            return ''
+
+
+class LinkPreviewThumbnailGrandeView(grok.View):
+    grok.context(IATLink)
+    grok.name("thumbnail_grande")
+    grok.require("zope2.View")
+
+    def render(self):
+        link_api = getMultiAdapter((self.context, self.request),
+                                       name="link_api")
+        thumb = link_api.get('thumbnail_grande')
+
+        if thumb:
+            return thumb.index_html(self.request, self.request.RESPONSE)
+        else:
+            return ''
 
 class UpdateLinkView(grok.View):
     grok.context(IATLink)
@@ -75,19 +106,41 @@ class LinkControl(grok.View):
         json = video_api.get_json(element.remoteUrl)
 
         if json:
-            thumb = json.get('thumbnail_pequeno', None)
+            thumb_peq = json.get('thumbnail_pequeno', None)
+            thumb_med = json.get('thumbnail_mediano', None)
+            thumb_gde = json.get('thumbnail_grande', None)
             archivo_url = json.get('archivo_url', None)
             titulo = json.get('titulo', None)
             descripcion = json.get('descripcion', None)
             slug = json.get('slug', None)
 
-            if thumb:
-                data = urllib2.urlopen(thumb)
-                img = Image('thumbnail_pequeno', 'Thumbnail', data.read())
+            if thumb_peq:
+                data = urllib2.urlopen(thumb_peq)
+                img = Image('thumbnail_pequeno', 'Thumbnail pequeno', data.read())
                 annotations['thumbnail_pequeno'] = img
             else:
                 try:
                     del(annotations['thumbnail_pequeno'])
+                except KeyError:
+                    pass
+
+            if thumb_med:
+                data = urllib2.urlopen(thumb_med)
+                img = Image('thumbnail_mediano', 'Thumbnail mediano', data.read())
+                annotations['thumbnail_mediano'] = img
+            else:
+                try:
+                    del(annotations['thumbnail_mediano'])
+                except KeyError:
+                    pass
+
+            if thumb_gde:
+                data = urllib2.urlopen(thumb_gde)
+                img = Image('thumbnail_grande', 'Thumbnail grande', data.read())
+                annotations['thumbnail_grande'] = img
+            else:
+                try:
+                    del(annotations['thumbnail_grande'])
                 except KeyError:
                     pass
 
