@@ -5,8 +5,8 @@ version = '1.0'
 
 setup(name='telesur.api',
       version=version,
-      description="API para Plone CMS de TeleSUR",
-      long_description=open("README.txt").read() + "\n" +
+      description="API para interactuar con Plone y el sitio Web Multimedia teleSUR",
+      long_description=open("README.rst").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
@@ -18,10 +18,10 @@ setup(name='telesur.api',
         "Programming Language :: JavaScript",
         "Programming Language :: Python",
         ],
-      keywords='Plone API',
+      keywords='Plone CMS API website teleSUR rest',
       author='Joaquin Rosales',
       author_email='globojorro@gmail.com',
-      url='http://svn.plone.org/svn/collective/',
+      url='https://github.com/desarrollotv/telesur.api',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['telesur'],
