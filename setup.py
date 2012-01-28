@@ -5,7 +5,7 @@ version = '1.0'
 
 setup(name='telesur.api',
       version=version,
-      description="API para interactuar con Plone y el sitio Web Multimedia teleSUR",
+      description="API para interactuar con Plone y el sitio web Video teleSUR",
       long_description=open("README.rst").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
