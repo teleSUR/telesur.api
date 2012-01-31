@@ -23,6 +23,8 @@ class IAddableVideos(form.Schema):
     form.omitted('relatedVideos')
     form.no_omit(IDisplayForm, 'relatedVideos')
     form.widget(relatedVideos=AddVideosFieldWidget)
+    form.read_permission(relatedVideos='cmf.ManagePortal')
+    form.write_permission(relatedVideos='cmf.ManagePortal')
     relatedVideos = RelationList(
         title=u'Videos relacionados',
         default=[],
