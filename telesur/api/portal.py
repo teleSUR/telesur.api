@@ -129,6 +129,7 @@ class Portal_API(grok.View):
                      'portal_type': 'collective.nitf.content',
                      'sort_on': 'effective',
                      'sort_order': 'reverse',
+                     'genre': 'Current'
                      }
         firsts = []
         if len(section_names) > 0:
