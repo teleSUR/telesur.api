@@ -106,10 +106,12 @@ class LinkControl(grok.View):
         json = video_api.get_json(element.remoteUrl)
 
         if json:
+            import pdb;pdb.set_trace()
             thumb_peq = json.get('thumbnail_pequeno', None)
             thumb_med = json.get('thumbnail_mediano', None)
             thumb_gde = json.get('thumbnail_grande', None)
             archivo_url = json.get('archivo_url', None)
+            audio_url = json.get('audio_url', None)
             titulo = json.get('titulo', None)
             descripcion = json.get('descripcion', None)
             slug = json.get('slug', None)
@@ -149,6 +151,14 @@ class LinkControl(grok.View):
             else:
                 try:
                     del(annotations['archivo_url'])
+                except KeyError:
+                    pass
+
+            if audio_url:
+                annotations['audio_url'] = audio_url
+            else:
+                try:
+                    del(annotations['audio_url'])
                 except KeyError:
                     pass
 
