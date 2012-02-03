@@ -106,7 +106,6 @@ class LinkControl(grok.View):
         json = video_api.get_json(element.remoteUrl)
 
         if json:
-            import pdb;pdb.set_trace()
             thumb_peq = json.get('thumbnail_pequeno', None)
             thumb_med = json.get('thumbnail_mediano', None)
             thumb_gde = json.get('thumbnail_grande', None)
