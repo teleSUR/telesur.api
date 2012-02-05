@@ -6,7 +6,6 @@ from zope.component import getMultiAdapter
 
 from Products.ATContentTypes.interfaces.link import IATLink
 from Products.Archetypes.interfaces import IObjectInitializedEvent
-from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
 from zope.annotation.interfaces import IAnnotations
 
@@ -46,7 +45,7 @@ class LinkPreviewThumbnailPequenoView(grok.View):
         else:
             return ''
 
-            
+
 class LinkPreviewThumbnailMedianoView(grok.View):
     grok.context(IATLink)
     grok.name("thumbnail_mediano")
@@ -77,6 +76,7 @@ class LinkPreviewThumbnailGrandeView(grok.View):
             return thumb.index_html(self.request, self.request.RESPONSE)
         else:
             return ''
+
 
 class UpdateLinkView(grok.View):
     grok.context(IATLink)
@@ -192,7 +192,6 @@ class LinkControl(grok.View):
 
 
 @grok.subscribe(IATLink, IObjectInitializedEvent)
-@grok.subscribe(IATLink, IObjectModifiedEvent)
 def update_local_data(obj, event):
     request = obj.REQUEST
     link_control = getMultiAdapter((obj, request), name="link-control")
