@@ -31,8 +31,6 @@ Autor(es) Original(es)
 Colaboraciones impresionantes
 =============================
 
-* Héctor Velarde
-
 * Héctor Velarde aka hvelarde
 
 * Leonardo J .Caballero G. aka macagua
