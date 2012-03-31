@@ -114,6 +114,16 @@ class Video_API(grok.View):
                     clip_url = match.groups()[0]
                     return VIDEO_WIDGET_URL_BASE + clip_url + widget_width
 
+    def get_audio_widget_url(self, url, width=400, json=None):
+        """
+        Método que se encarga de obtener el Javascript utilizado para
+        embeber el player con el adio. De la forma:
+        http://[url]insertar.js?archivo=[archivo]&amp;width=[width]&solo_audio=true
+        """
+        result = self.get_video_widget_url(url, width, json)
+        if result:
+            return result + "&solo_audio=true"
+
     def get_video_thumb(self, url, thumb_size='pequeno', json=None):
         """da el thumb image de un video, los posibles tamanios son pequeno,
         mediano, grande"""
@@ -129,6 +139,8 @@ class Video_API(grok.View):
             if thumb in json_data:
                 thumb_url = json_data[thumb]
         return thumb_url
+
+    
 
     def get_section_last_videos(self, section_name):
         #check the slug id in the api
