@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from setuptools import setup, find_packages
 import os
 
@@ -8,17 +10,21 @@ setup(name='telesur.api',
       description="API para interactuar con Plone y el sitio web Video teleSUR",
       long_description=open("README.rst").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from
-      # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
+        "Environment :: Web Environment",
+        "Framework :: Plone",
         "Framework :: Plone :: 4.1",
+        "Intended Audience :: System Administrators",
         "License :: OSI Approved :: GNU General Public License (GPL)",
         "Operating System :: OS Independent",
         "Programming Language :: JavaScript",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.6",
+        "Topic :: Office/Business :: News/Diary",
+        "Topic :: Software Development :: Libraries :: Python Modules",
         ],
-      keywords='Plone CMS API website teleSUR rest',
+      keywords='plone api teleSUR rest',
       author='Joaquin Rosales',
       author_email='globojorro@gmail.com',
       url='https://github.com/desarrollotv/telesur.api',
@@ -28,14 +34,12 @@ setup(name='telesur.api',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'setuptools',
-          # collective.nitf especifica las dependencias de dexterity
-          # las cuales incluyen five.grok y plone.app.z3cform, entre otras.
-          'collective.nitf',
-          'plone.behavior',
-          'plone.directives.form',
-          'rwproperty',
-      ],
+        'setuptools',
+        'collective.nitf',
+        'plone.behavior',
+        'plone.directives.form',
+        'rwproperty',
+        ],
       extras_require={
         'test': ['plone.app.testing'],
         },
