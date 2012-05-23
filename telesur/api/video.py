@@ -4,6 +4,8 @@ import re
 import json
 import urllib
 
+from AccessControl import ClassSecurityInfo
+
 from five import grok
 from zope.interface import Interface
 
@@ -15,6 +17,8 @@ from Products.Archetypes.event import ObjectInitializedEvent
 
 
 URL_BASE = u"http://multimedia.tlsur.net/api/"
+VIDEO_API = "%s%s/?" % (URL_BASE, 'clip')
+
 VIDEO_API_REGEX_STRING = u"^http:\/\/.+\/api\/(?P<url>clip\/.+?)$"
 VIDEO_WIDGET_URL_BASE = u"http://multimedia.telesurtv.net/player/insertar.js?archivo="
 VIDEO_REGEX_STRING = u"^http:\/\/.+\/(?P<url>clips\/.+\.mp4?)$"
@@ -56,6 +60,8 @@ class Video_API(grok.View):
     grok.name("video_api")
     grok.require("zope2.View")
 
+    security = ClassSecurityInfo()
+
     def __init__(self, *args, **kwargs):
         super(Video_API, self).__init__(*args, **kwargs)
 
@@ -65,16 +71,16 @@ class Video_API(grok.View):
     def get_widgets(self):
         return WIDGET_URLS
 
-    # XXX esta función, ¿sirve para algo?
-    def queryApiUrl(self, *args, **kwargs):
-        query = []
+    security.declarePublic('query')
+    def query(self, **kwargs):
+        """
+        """
         if kwargs:
-            for key, value in kwargs:
-                query.append(tuple(key.encode('utf-8'),
-                                   urllib.quote(value.encode('utf-8'))))
-        # XXX URLBASE no está definida
-        query_url = URLBASE + urllib.urlencode(query)
-        # query_url no se usa en ningún lado
+            query_url = VIDEO_API + urllib.urlencode(kwargs)
+            return self.get_json(query_url)
+
+        raise ValueError("No arguments supplied")
+
 
     def get_json(self, url):
         """
