@@ -20,7 +20,7 @@ Usted puede leer el archivo ``INSTALL.txt`` dentro del directorio ``docs`` de es
 Descargas
 =========
 
-Usted puede encontrar la versión de desarrollo del paquete ``telesur.api`` en el `repositorio desarrollotv`_ en Github.com.
+Usted puede encontrar la versión de desarrollo del paquete ``telesur.api`` en el `repositorio teleSUR`_ en Github.com.
 
 
 Autor(es) Original(es)
@@ -37,12 +37,12 @@ Colaboraciones impresionantes
 
 * Franco Pellegrini aka frapell
 
-Para una lista actualizada de todo los colaboradores visite: https://github.com/desarrollotv/telesur.api/contributors
+Para una lista actualizada de todo los colaboradores visite: https://github.com/teleSUR/telesur.api/contributors
 
 .. _API: http://es.wikipedia.org/wiki/API
 .. _Plone: http://plone.org/
 .. _sitio web Video teleSUR: http://multimedia.telesurtv.net/
 .. _RESTful API: https://github.com/desarrollotv/diftv/wiki/RESTful-API
 .. _REST: http://es.wikipedia.org/wiki/Representational_State_Transfer
-.. _repositorio desarrollotv: https://github.com/desarrollotv/telesur.api
+.. _repositorio teleSUR: https://github.com/teleSUR/telesur.api
 
