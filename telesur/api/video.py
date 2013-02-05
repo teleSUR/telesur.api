@@ -3,6 +3,9 @@
 import re
 import json
 import urllib
+import urllib2
+
+from socket import timeout
 
 from AccessControl import ClassSecurityInfo
 
@@ -81,7 +84,6 @@ class Video_API(grok.View):
 
         raise ValueError("No arguments supplied")
 
-
     def get_json(self, url):
         """
         Método que, dado una url, crea un JSON como resultado.
@@ -94,6 +96,12 @@ class Video_API(grok.View):
                 result = json.load(urllib.urlopen(url))
             except ValueError:
                 result = None
+            except (urllib2.URLError, timeout):
+                logger.info("Timeout when trying to access %s" % url)
+                result = None
+            except IOError:
+                result = None
+
 
             if result and 'Error' in result:
                 result = None
@@ -146,7 +154,7 @@ class Video_API(grok.View):
                 thumb_url = json_data[thumb]
         return thumb_url
 
-    
+
 
     def get_section_last_videos(self, section_name):
         #check the slug id in the api
