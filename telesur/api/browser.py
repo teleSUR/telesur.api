@@ -186,6 +186,10 @@ class LinkControl(grok.View):
                     del(annotations['slug'])
                 except KeyError:
                     pass
+                  
+            #XXX: This is the only thing we should've done... save the whole
+            #     json.
+            annotations['json'] = json
 
     def render(self):
         return self
