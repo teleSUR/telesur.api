@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import urllib2
+import mimetypes
+
 from five import grok
 
 from zope.component import getMultiAdapter
@@ -11,8 +14,6 @@ from zope.annotation.interfaces import IAnnotations
 
 from OFS.Image import Image
 
-import urllib2
-
 
 class LinkApi(grok.View):
     grok.context(IATLink)
@@ -21,6 +22,9 @@ class LinkApi(grok.View):
 
     def get(self, element):
         annotations = IAnnotations(self.context)
+        if element = 'mimetype' and self.is_video():
+                return mimetypes.guess_type(annotations['archivo_url'])[0]
+
         return annotations.get(element, None)
 
     def is_video(self):
