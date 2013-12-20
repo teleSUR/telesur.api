@@ -33,6 +33,11 @@ class LinkApi(grok.View):
     def render(self):
         return self
 
+    def has_json(self):
+        """ Before 7388be the json attribute was not saved.
+        """
+        return self.get('json') is not None:
+
 
 class LinkPreviewThumbnailPequenoView(grok.View):
     grok.context(IATLink)
