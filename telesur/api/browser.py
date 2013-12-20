@@ -22,7 +22,7 @@ class LinkApi(grok.View):
 
     def get(self, element):
         annotations = IAnnotations(self.context)
-        if element = 'mimetype' and self.is_video():
+        if element == 'mimetype' and self.is_video():
                 return mimetypes.guess_type(annotations['archivo_url'])[0]
 
         return annotations.get(element, None)
@@ -36,7 +36,7 @@ class LinkApi(grok.View):
     def has_json(self):
         """ Before 7388be the json attribute was not saved.
         """
-        return self.get('json') is not None:
+        return self.get('json') is not None
 
 
 class LinkPreviewThumbnailPequenoView(grok.View):
